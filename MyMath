@@ -1,0 +1,22 @@
+public class MyMath {
+    double myDouble;
+    String myApp;
+    MyMath (double myDouble,String myApp)
+    {
+        this.myDouble=myDouble;
+        this.myApp = myApp;
+    }
+    public Double getMyDouble() {
+        return myDouble;
+    }
+    public String getMyApp() {
+        return myApp;
+    }
+    public void setMyDouble(double myDouble) {
+        this.myDouble = myDouble;
+    }
+    public void setMyApp(String myApp) {
+        this.myApp = myApp;
+    }
+
+}
