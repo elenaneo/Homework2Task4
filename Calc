@@ -1,0 +1,96 @@
+public class Calc {
+
+
+    public double calc(String source) {
+        double res=0;
+
+        //калькулятор
+        StringBuilder head= new StringBuilder();
+        //проверим нет ли скобок в выражении
+        if (source.indexOf("(") > 0) //если нашли скобку, избавляемся от нее
+        {
+            source=normalize(source);
+        }
+        //если скобок в выражении нет
+
+            head.append(source);
+            //считаем количество операций в выражении
+            MyMath[] myMath = new MyMath[calcLen(source)+1];
+            int j=0,k=0;
+            //преобразуем строку в масив из чисел и операндов
+            for (int i = 0; i < head.length() - 1; i++) {
+                if (Character.isDigit(head.charAt(i))
+                        & !Character.isDigit(head.charAt(i + 1))&head.charAt(i + 1)!='.') //если нашли выражение из числа и операнда
+                {
+                    myMath[j]=new MyMath(Double.parseDouble(head.substring(k, i+1)),head.substring(i+1, i + 2));
+                    j=++j;
+                    k=i+2;
+                }
+                }
+            myMath[j]=new MyMath(Double.parseDouble(head.substring(k)),null); //последнее число сохраняем
+
+                // ищем знаки */- и рассчитываем их
+            for (int i=0; i<myMath.length-1;i++) {
+                switch (myMath[i].myApp) {
+                    case ("*"):
+                        myMath[i+1].setMyDouble(myMath[i].myDouble * myMath[i + 1].myDouble);
+                        myMath[i].setMyDouble(0);
+                        myMath[i].setMyApp("+");
+                        break;
+                    case ("/"):
+                        myMath[i+1].setMyDouble(myMath[i].myDouble / myMath[i + 1].myDouble);
+                        myMath[i].setMyDouble(0);
+                        myMath[i].setMyApp("+");
+                        break;
+                    case ("-"):
+                        myMath[i + 1].setMyDouble(myMath[i + 1].myDouble * (-1));
+                        myMath[i + 1].setMyApp("+");
+                        break;
+
+                }
+            }
+//считаем итого по массиву
+                for (int i=0; i<myMath.length;i++)
+                {
+                    res=res+myMath[i].myDouble;
+                }
+            return res;
+        }
+    //метод рассчта количества операндов
+        int calcLen (String inStr)
+        {
+            int len = 0;
+            char[] inChar = inStr.toCharArray();
+            String myApp = "+-/*";
+            for (int i = 0; i < inStr.length(); i++) {
+                if (myApp.indexOf(inChar[i]) >= 0) {
+                    len = ++len;
+                }
+            }
+            return len;
+        }
+        //метод нормализации строки от скобок
+        String normalize(String source) {
+            //проверим нет ли скобок в выражении
+            StringBuilder newSource = new StringBuilder();
+            StringBuilder head = new StringBuilder();
+            StringBuilder tail = new StringBuilder();
+            int index1 = source.indexOf("(");
+            //ищем закрывающую скобку
+                int index2 = source.lastIndexOf(")");
+                newSource.append(source.substring(index1 + 1, index2));
+                //System.out.println("newSource -" + newSource);
+                head.append(source.substring(0, index1));
+                //System.out.println("head -" + head);
+                tail.append(source.substring(index2 + 1));
+                //System.out.println("tail -" + tail);
+                if (newSource.length() > 0) {
+                    head.append(calc(newSource.toString())); // рассчитываем значение между скобок
+                }
+                head.append(tail);
+                //возвращаем строку без скобок
+                source = head.toString();
+                return source;
+        }
+
+}
