@@ -1,0 +1,13 @@
+public class Task4_2 {
+        public static void main(String args[]) {
+
+            System.out.println("Пример4");
+
+            Calc res=new Calc();
+
+            System.out.println("28*5/7*5-3="+ res.calc("28*5/7*5-3"));
+            System.out.println("28*5/(7*5)-3="+ res.calc("28*5/(7*5)-3"));
+        }
+    }
+
+
