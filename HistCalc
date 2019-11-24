@@ -1,0 +1,56 @@
+public class HistCalc {
+    String Expression;
+    double result;
+    public static final int maxLen=10;
+    public void HistCalc (String Expression, double result)
+    {
+        this.Expression=Expression;
+        this.result=result;
+    }
+    public static HistCalc[] setHistCalc (String source,double result,HistCalc [] histCalc) //метод ведения истории
+    {
+        int len=0;
+        for (int i=0; i<histCalc.length; i++)
+        {
+            System.out.println(histCalc[i]);
+            //if (histCalc[i].Expression.length() == 0) {
+            if (histCalc[i] == null) {
+                histCalc[i].Expression=source;
+                histCalc[i].result=result;
+                len=++len;
+                break;
+            }
+        }
+        if (len==10) {
+            histCalc[0].HistCalc(source,result);
+        }
+        return histCalc;
+    }
+
+    public static String getHistCalc(int ind, HistCalc [] histCalc) {
+        String prevEspr= new String();
+        if (ind!=-1) {
+            prevEspr = histCalc[ind].Expression + "=" + histCalc[ind].result   ;
+        }
+        else{
+            for (int i = 0; i < histCalc.length; i++) {
+                if (histCalc[i].Expression.length() == 0) {
+                    prevEspr = histCalc[i - 1].Expression + "=" + histCalc[i - 1].result;
+                    break;
+                }
+            }
+            if (prevEspr.length() == 0)
+                prevEspr = histCalc[10].Expression + "=" + histCalc[10].result;
+        }
+        return prevEspr;
+        }
+    public static HistCalc[] getHistCalc(HistCalc [] histCalc) {
+        for (int i = 0; i < histCalc.length; i++) {
+            histCalc[i].HistCalc(null, 0);
+        }
+        return histCalc;
+    }
+
+
+
+}
